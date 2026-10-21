@@ -7,7 +7,7 @@ from sklearn.linear_model import LinearRegression
 st.set_page_config(page_title="EcoPower: Energy & Cost Predictor", page_icon="⚡", layout="centered")
 
 st.title("⚡ Household Energy Consumption & Cost Predictor")
-st.markdown("Predict your monthly electricity bill based on your appliance configuration and usage hours.")
+st.markdown("Predict your monthly electricity bill based on appliance counts and usage time.")
 
 # --- 1. Load Data and Train Regression Model ---
 @st.cache_resource
@@ -31,7 +31,7 @@ def train_model():
 model = train_model()
 
 # --- 2. User Input Controls ---
-st.header("🏠 Enter Appliance & Usage Parameters")
+st.header("🏠 Enter Appliance & Time Parameters")
 
 col1, col2 = st.columns(2)
 with col1:
@@ -41,7 +41,11 @@ with col1:
     television = st.slider("Televisions", 1.0, 22.0, 12.0, 1.0)
 with col2:
     monitor = st.slider("Monitors", 1.0, 12.0, 3.0, 1.0)
-    monthly_hours = st.slider("Total Monthly Usage Hours", 100, 900, 515)
+    
+    # NEW: Time used control (Daily hours converted to monthly hours)
+    daily_usage_hours = st.slider("Average Daily Usage Time (Hours/Day)", 1, 24, 17)
+    monthly_hours = daily_usage_hours * 30  # Converts daily run time into monthly hours
+    
     tariff_rate = st.slider("Tariff Rate (₹/kWh)", 7.0, 9.5, 8.4, 0.1)
 
 # --- 3. Prediction Logic ---
@@ -55,8 +59,6 @@ if st.button("Predict Electricity Bill"):
     st.metric(label="Projected Monthly Electricity Bill", value=f"₹ {max(0, predicted_bill):,.2f}")
         
     if predicted_bill > 5000:
-        st.warning("⚠️ **Tariff Alert:** Your projected monthly electricity bill is on the higher side. Consider reducing peak appliance usage!")
+        st.warning("⚠️ **Tariff Alert:** Your projected monthly electricity bill is high due to extended usage time!")
     else:
         st.success("✅ **Status:** Your estimated bill is within efficient limits.")
-  
- 
