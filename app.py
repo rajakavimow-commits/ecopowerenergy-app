@@ -38,7 +38,7 @@ with col1:
     fan = st.slider("Number of Fans", 5, 23, 14)
     refrigerator = st.slider("Refrigerator Units / Rating", 17.0, 23.0, 22.0, 1.0)
     air_conditioner = st.slider("Air Conditioners", 0.0, 3.0, 2.0, 1.0)
-    television = st.slider("Televisions", 3.0, 22.0, 12.0, 1.0)
+    television = st.slider("Televisions", 1.0, 22.0, 12.0, 1.0)
 with col2:
     monitor = st.slider("Monitors", 1.0, 12.0, 3.0, 1.0)
     monthly_hours = st.slider("Total Monthly Usage Hours", 100, 900, 515)
